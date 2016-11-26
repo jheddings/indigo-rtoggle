@@ -8,10 +8,10 @@
 
       <Field id="deviceList" type="list" rows="9">
         <Label>Devices:</Label>
-        <List class="self" method="deviceListGenerator" filter="relayScene" dynamicReload="true" />
+        <List class="self" method="deviceListGenerator" dynamicReload="true" />
       </Field>
       <Field id="deviceListHelp" type="label" fontSize="mini" alignWithControl="true">
-        <Label>select the devices to randomly toggle in this group</Label>
+        <Label>Select the devices in this group (hold ⌘ to select multiple devices).</Label>
       </Field>
 
       <!-- used to show the description in Indigo -->

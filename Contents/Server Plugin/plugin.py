@@ -36,7 +36,15 @@ class Plugin(indigo.PluginBase):
     def validateActionConfigUi(self, values, typeId, devId):
         errors = indigo.Dict()
 
-        # TODO update description
+        deviceList = values.get('deviceList', list())
+        numDevices = len(deviceList)
+
+        if (numDevices < 1):
+            errors['deviceList'] = 'must select at least one device'
+        elif (numDevices > 1):
+            values['description'] = 'toggle group - %s devices' % numDevices
+        else:
+            values['description'] = 'toggle group - 1 device'
 
         return ((len(errors) == 0), values, errors)
 
@@ -59,12 +67,12 @@ class Plugin(indigo.PluginBase):
         self.debugLog('deviceListGenerator(filter=%s, typeId=%s, targetId=%s)' % (filter, typeId, str(targetId)))
 
         returnList = list()
-        deviceList = valuesDict.get("memberDevices", "").split(",")
 
+        # only add devices that have an onState - e.g. can be turned on/off
         for devId in indigo.devices.iterkeys():
-            # TODO only allow devices that support toggle
             device = indigo.devices.get(devId)
-            returnList.append((devId, device.name))
+            if hasattr(device, 'onState'):
+                returnList.append((devId, device.name))
 
         return returnList
 
