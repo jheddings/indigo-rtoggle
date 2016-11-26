@@ -47,7 +47,7 @@ class Plugin(indigo.PluginBase):
         deviceList = action.props.get('deviceList', '')
         self.debugLog('%s devices in list' % len(deviceList))
 
-        deviceId = random.choice(deviceList)
+        deviceId = int(random.choice(deviceList))
         self.debugLog('selected device: %s' % deviceId)
 
         # TODO error handling
@@ -62,11 +62,9 @@ class Plugin(indigo.PluginBase):
         deviceList = valuesDict.get("memberDevices", "").split(",")
 
         for devId in indigo.devices.iterkeys():
-            # don't allow the current device
             # TODO only allow devices that support toggle
-            if str(devId) not in deviceList:
-                device = indigo.devices.get(devId)
-                returnList.append((devId, device.name))
+            device = indigo.devices.get(devId)
+            returnList.append((devId, device.name))
 
         return returnList
 
