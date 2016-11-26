@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<PluginConfig>
+  <SupportURL>https://github.com/jheddings/indigo-rtoggle</SupportURL>
+
+  <Field type="checkbox" id="debug">
+    <Label>Enable debugging:</Label>
+  </Field>
+</PluginConfig>

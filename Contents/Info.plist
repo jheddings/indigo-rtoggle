@@ -9,7 +9,7 @@
     <key>IwsApiVersion</key>
     <string>1.0.0</string>
     <key>CFBundleDisplayName</key>
-    <string>Prowl</string>
+    <string>Random Toggle</string>
     <key>CFBundleIdentifier</key>
     <string>com.heddings.indigo.rtoggle</string>
     <key>CFBundleVersion</key>
