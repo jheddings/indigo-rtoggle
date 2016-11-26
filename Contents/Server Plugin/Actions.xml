@@ -8,7 +8,8 @@
 
       <Field id="deviceList" type="list" rows="9">
         <Label>Devices:</Label>
-        <List class="self" method="deviceListGenerator" dynamicReload="true" />
+        <!--List class="indigo.devices" filter="indigo.relay" /-->
+        <List class="self" method="deviceListGenerator" />
       </Field>
       <Field id="deviceListHelp" type="label" fontSize="mini" alignWithControl="true">
         <Label>Select the devices in this group (hold ⌘ to select multiple devices).</Label>

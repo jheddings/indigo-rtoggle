@@ -46,25 +46,23 @@ class Plugin(indigo.PluginBase):
         else:
             values['description'] = 'toggle group - 1 device'
 
+        # XXX how to update the global dependencies with selected items?
+
         return ((len(errors) == 0), values, errors)
 
     #---------------------------------------------------------------------------
     def rtoggle(self, action):
-        self.debugLog('rtoggle()')
-
         deviceList = action.props.get('deviceList', '')
         self.debugLog('%s devices in list' % len(deviceList))
 
         deviceId = int(random.choice(deviceList))
         self.debugLog('selected device: %s' % deviceId)
 
-        # TODO error handling
-
         indigo.device.toggle(deviceId)
 
     #---------------------------------------------------------------------------
     def deviceListGenerator(self, filter='', valuesDict=None, typeId='', targetId=0):
-        self.debugLog('deviceListGenerator(filter=%s, typeId=%s, targetId=%s)' % (filter, typeId, str(targetId)))
+        self.debugLog('build device list')
 
         returnList = list()
 
