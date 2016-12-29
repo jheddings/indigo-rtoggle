@@ -8,16 +8,12 @@ class Plugin(indigo.PluginBase):
     #---------------------------------------------------------------------------
     def __init__(self, pluginId, pluginDisplayName, pluginVersion, pluginPrefs):
         indigo.PluginBase.__init__(self, pluginId, pluginDisplayName, pluginVersion, pluginPrefs)
-        self.debug = pluginPrefs.get('debug', False)
+
+        self._initializeLogging(pluginPrefs)
 
     #---------------------------------------------------------------------------
     def __del__(self):
         indigo.PluginBase.__del__(self)
-
-    #---------------------------------------------------------------------------
-    def toggleDebugging(self):
-        self.debug = not self.debug
-        self.pluginPrefs['debug'] = self.debug
 
     #---------------------------------------------------------------------------
     def validatePrefsConfigUi(self, values):
@@ -29,8 +25,9 @@ class Plugin(indigo.PluginBase):
 
     #---------------------------------------------------------------------------
     def closedPrefsConfigUi(self, values, canceled):
-        if (not canceled):
-            self.debug = values.get('debug', False)
+        if canceled: return
+
+        self._initializeLogging(values)
 
     #---------------------------------------------------------------------------
     def validateActionConfigUi(self, values, typeId, devId):
@@ -53,16 +50,19 @@ class Plugin(indigo.PluginBase):
     #---------------------------------------------------------------------------
     def rtoggle(self, action):
         deviceList = action.props.get('deviceList', '')
-        self.debugLog('%s devices in list' % len(deviceList))
+        self.logger.debug('%d devices in list', len(deviceList))
 
         deviceId = int(random.choice(deviceList))
-        self.debugLog('selected device: %s' % deviceId)
 
-        indigo.device.toggle(deviceId)
+        if deviceId in indigo.devices:
+            self.logger.debug('selected device: %d', deviceId)
+            indigo.device.toggle(deviceId)
+        else:
+            self.logger.error('Invalid device in toggle group: %d', deviceId)
 
     #---------------------------------------------------------------------------
     def deviceListGenerator(self, filter='', valuesDict=None, typeId='', targetId=0):
-        self.debugLog('build device list')
+        self.logger.debug('build device list')
 
         returnList = list()
 
@@ -73,4 +73,15 @@ class Plugin(indigo.PluginBase):
                 returnList.append((devId, device.name))
 
         return returnList
+
+    #---------------------------------------------------------------------------
+    def _initializeLogging(self, values):
+        levelTxt = values.get('logLevel', None)
+
+        if levelTxt is None:
+            self.logLevel = 20
+        else:
+            self.logLevel = int(levelTxt)
+
+        self.indigo_log_handler.setLevel(self.logLevel)
 
