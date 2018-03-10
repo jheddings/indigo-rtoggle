@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <PluginConfig>
-  <SupportURL>https://github.com/jheddings/indigo-rtoggle</SupportURL>
+  <SupportURL>http://forums.indigodomo.com/viewforum.php?f=229</SupportURL>
 
   <Field id="logLevel" type="menu" defaultValue="20">
     <Label>Event Logging Level:</Label>
