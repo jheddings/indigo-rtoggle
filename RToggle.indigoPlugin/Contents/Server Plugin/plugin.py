@@ -2,32 +2,10 @@
 
 import random
 
+import iplug
+
 ################################################################################
-class Plugin(indigo.PluginBase):
-
-    #---------------------------------------------------------------------------
-    def __init__(self, pluginId, pluginDisplayName, pluginVersion, pluginPrefs):
-        indigo.PluginBase.__init__(self, pluginId, pluginDisplayName, pluginVersion, pluginPrefs)
-
-        self._initializeLogging(pluginPrefs)
-
-    #---------------------------------------------------------------------------
-    def __del__(self):
-        indigo.PluginBase.__del__(self)
-
-    #---------------------------------------------------------------------------
-    def validatePrefsConfigUi(self, values):
-        errors = indigo.Dict()
-
-        devices = values.get('devices', '')
-
-        return ((len(errors) == 0), values, errors)
-
-    #---------------------------------------------------------------------------
-    def closedPrefsConfigUi(self, values, canceled):
-        if canceled: return
-
-        self._initializeLogging(values)
+class Plugin(iplug.PluginBase):
 
     #---------------------------------------------------------------------------
     def validateActionConfigUi(self, values, typeId, devId):
@@ -73,15 +51,4 @@ class Plugin(indigo.PluginBase):
                 returnList.append((devId, device.name))
 
         return returnList
-
-    #---------------------------------------------------------------------------
-    def _initializeLogging(self, values):
-        levelTxt = values.get('logLevel', None)
-
-        if levelTxt is None:
-            self.logLevel = 20
-        else:
-            self.logLevel = int(levelTxt)
-
-        self.indigo_log_handler.setLevel(self.logLevel)
 
